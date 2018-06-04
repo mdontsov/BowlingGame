@@ -1,10 +1,7 @@
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
-
-import java.util.Random;
 
 public class BowlingGameTest {
 
