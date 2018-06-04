@@ -19,11 +19,21 @@ public class BowlingGameTest {
 
     @Test
     public void canRandomlySpare() {
-        int totalSum = 0;
+        int totalScore = 0;
         for (int i = 1; i <= 2; i++) {
             int scorePerFrame = bowlingGame.getScore();
-            totalSum += scorePerFrame;
+            totalScore += scorePerFrame;
         }
-        assertThat(totalSum, greaterThanOrEqualTo(10));
+        assertThat(totalScore, greaterThanOrEqualTo(10));
+    }
+
+    @Test
+    public void canRandomlyOpenFrame() {
+        int totalScore = 0;
+        for (int i = 1; i <= 2; i++) {
+            int scorePerFrame = bowlingGame.getScore();
+            totalScore += scorePerFrame;
+        }
+        assertThat(totalScore, lessThan(10));
     }
 }
