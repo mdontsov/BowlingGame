@@ -1,5 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
@@ -14,104 +17,115 @@ public class BowlingGameTest {
 
     @Test
     public void canRandomlyStrike() {
-        assertThat(bowlingGame.getScore(), equalTo(10));
+        assertThat(bowlingGame.getPins(), equalTo(10));
     }
 
     @Test
     public void canRandomlySpare() {
+        List<Integer> rolls = new ArrayList<>();
         int totalScore = 0;
-        for (int i = 1; i <= 2; i++) {
-            int scorePerFrame = bowlingGame.getScore();
-            totalScore += scorePerFrame;
+        for (int i = 0; i <= 1; i++) {
+            rolls.add(bowlingGame.getPins());
+            totalScore = rolls.stream().mapToInt(Integer::intValue).sum();
         }
         assertThat(totalScore, greaterThanOrEqualTo(10));
     }
 
     @Test
     public void canRandomlyOpenFrame() {
+        List<Integer> rolls = new ArrayList<>();
         int totalScore = 0;
-        for (int i = 1; i <= 2; i++) {
-            int scorePerFrame = bowlingGame.getScore();
-            totalScore += scorePerFrame;
+        for (int i = 0; i <= 1; i++) {
+            rolls.add(bowlingGame.getPins());
+            totalScore = rolls.stream().mapToInt(Integer::intValue).sum();
         }
         assertThat(totalScore, lessThan(10));
     }
 
     @Test
     public void canRandomlyZero() {
-        int totalScore = 0;
-        for (int i = 1; i <= 2; i++) {
-            int scorePerFrame = bowlingGame.getScore();
-            totalScore += scorePerFrame;
-        }
-        assertThat(totalScore, equalTo(0));
+        int scorePerFrame = bowlingGame.getPins();
+        assertThat(scorePerFrame, equalTo(0));
     }
 
     @Test
     public void canSpareInAllFrames() {
-        int scorePerFrame = 0;
+        List<Integer> rolls = new ArrayList<>();
         for (int i = 0; i <= 20; i++) {
-            scorePerFrame = bowlingGame.getScore();
-            System.out.println(scorePerFrame);
+            rolls.add(bowlingGame.getPins());
+            assertThat(rolls.get(i), allOf(greaterThan(0), lessThanOrEqualTo(10)));
         }
-        assertThat(scorePerFrame, allOf(greaterThan(0), lessThan(10)));
+//        rolls.set(20, 0);
+//        if (rolls.get(18) == 10 | (rolls.get(18) + rolls.get(19) >= 10)) {
+//            rolls.set(20, bowlingGame.getScore());
+//        }
+//        for (int j = 0; j <= rolls.size(); j++) {
+//            assertThat(rolls.get(j), allOf(greaterThan(0), lessThanOrEqualTo(10)));
+//        }
+    }
+
+    @Test
+    public void canStrikeInAllFrames() {
+        List<Integer> rolls = new ArrayList<>();
+        for (int i = 0; i <= 20; i++) {
+            rolls.add(bowlingGame.getPins());
+            assertThat(rolls.get(i), equalTo(10));
+        }
+    }
+
+    @Test
+    public void canZeroInAllFrames() {
+        List<Integer> rolls = new ArrayList<>();
+        for (int i = 0; i <= 20; i++) {
+            rolls.add(bowlingGame.getPins());
+            assertThat(rolls.get(i), equalTo(0));
+        }
+    }
+
+    @Test
+    public void canCalculateStrikeBonus() {
+        bowlingGame.roll(bowlingGame.getPins());
+    }
+
+    @Test
+    public void canCalculateSpareBonus() {
+
+    }
+
+    @Test
+    public void canRoll3rdTime() {
+
     }
 
     @Test
     public void canCalculateBonuses() {
-        int firstRollScore = 10;//bowlingGame.getScore();
+        int firstRollScore = bowlingGame.getPins();
         int bonusRollScore = 0;
         int totalScore = 0;
         if (firstRollScore == 10) {
             for (int nextRoll = 1; nextRoll <= 2; nextRoll++) {
-                int nextRollScore = bowlingGame.getScore();
+                int nextRollScore = bowlingGame.getPins();
                 bonusRollScore += nextRollScore;
                 totalScore = bonusRollScore + firstRollScore;
             }
             assertThat(totalScore, equalTo(bonusRollScore + firstRollScore));
         } else if (firstRollScore > 0 && firstRollScore < 10) {
-            int spareRollScore = bowlingGame.getScore();
+            int spareRollScore = bowlingGame.getPins();
             totalScore = spareRollScore + firstRollScore;
             if (totalScore >= 10) {
-                bonusRollScore = bowlingGame.getScore();
+                bonusRollScore = bowlingGame.getPins();
                 totalScore = totalScore + bonusRollScore;
+                assertThat(totalScore, lessThanOrEqualTo(totalScore + bonusRollScore));
+            } else {
+                System.out.println("No bonuses for Open Frame!");
             }
-            assertThat(totalScore, lessThanOrEqualTo(totalScore + bonusRollScore));
         } else {
-            System.out.println("No bonuses for Open Frame!");
+            System.out.println("You suck at bowling");
         }
     }
 
-//    @Test
-//    public void canCalculateSpareBonus() {
-//        int firstRollScore = bowlingGame.getScore();
-//        if (firstRollScore > 0 && firstRollScore < 10) {
-//            int secondRollScore = bowlingGame.getScore();
-//            int totalFrameScore = firstRollScore + secondRollScore;
-//            if (totalFrameScore >= 10) {
-//                int newRollScore
-//            }
-//            assertThat(totalScore, equalTo(nextFrameScore + score));
-//        }
-//    }
-//
-//    @Test
-//    public void canCalculateBonuses() {
-//        int score = bowlingGame.getScore();
-//        int bonusScore = 0;
-//        int totalScore = 0;
-//        int newFrameScore = 0;
-//        if (score == 10) {
-//            for (int nextBonus = 1; nextBonus <= 2; nextBonus++) {
-//                newFrameScore = bowlingGame.getScore();
-//                bonusScore += newFrameScore;
-//                totalScore = bonusScore + score;
-//            }
-//            assertThat(totalScore, equalTo(bonusScore + score));
-//        } else if (score > 0 && score < 10){
-//            bonusScore = newFrameScore + score;
-//            totalScore =
-//        }
-//        assertThat(bonusScore, equalTo(newFrameScore + score));
-//    }
+    @Test
+    public void currentScore() {
+        bowlingGame.getScore(4, 10);
+    }
 }
