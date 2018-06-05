@@ -10,6 +10,10 @@ public class BowlingGameTest {
 
     private BowlingGame bowlingGame;
 
+    void rollMany(int frames, int pins) {
+        bowlingGame.roll(pins);
+    }
+
     @Before
     public void setUp() {
         bowlingGame = new BowlingGame();
@@ -94,7 +98,6 @@ public class BowlingGameTest {
 
     @Test
     public void canRoll3rdTime() {
-
     }
 
     @Test
