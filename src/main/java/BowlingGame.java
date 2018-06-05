@@ -27,7 +27,7 @@ public class BowlingGame {
         int score = 0;
         int frameIndex = 0;
         for (int i = 0; i <= 9; i++) {
-            rolls.add(getPins());
+//            rolls.add(getPins());
             if (isStrike(rolls.get(0))) {
                 score += 10 + getStrikeBonus(frameIndex);
                 frameIndex++;

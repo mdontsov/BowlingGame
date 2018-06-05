@@ -11,7 +11,9 @@ public class BowlingGameTest {
     private BowlingGame bowlingGame;
 
     void rollMany(int frames, int pins) {
-        bowlingGame.roll(pins);
+        for (int i = 0; i <= frames; i++) {
+            bowlingGame.roll(pins);
+        }
     }
 
     @Before
@@ -101,34 +103,43 @@ public class BowlingGameTest {
     }
 
     @Test
-    public void canCalculateBonuses() {
-        int firstRollScore = bowlingGame.getPins();
-        int bonusRollScore = 0;
-        int totalScore = 0;
-        if (firstRollScore == 10) {
-            for (int nextRoll = 1; nextRoll <= 2; nextRoll++) {
-                int nextRollScore = bowlingGame.getPins();
-                bonusRollScore += nextRollScore;
-                totalScore = bonusRollScore + firstRollScore;
-            }
-            assertThat(totalScore, equalTo(bonusRollScore + firstRollScore));
-        } else if (firstRollScore > 0 && firstRollScore < 10) {
-            int spareRollScore = bowlingGame.getPins();
-            totalScore = spareRollScore + firstRollScore;
-            if (totalScore >= 10) {
-                bonusRollScore = bowlingGame.getPins();
-                totalScore = totalScore + bonusRollScore;
-                assertThat(totalScore, lessThanOrEqualTo(totalScore + bonusRollScore));
-            } else {
-                System.out.println("No bonuses for Open Frame!");
-            }
-        } else {
-            System.out.println("You suck at bowling");
-        }
+    public void currentScore() {
+        bowlingGame.getScore(4, 10);
     }
 
     @Test
-    public void currentScore() {
-        bowlingGame.getScore(4, 10);
+    public void scoreZeroes() {
+        rollMany(20, 0);
+        assertThat(bowlingGame.getScore(), equalTo(0));
+    }
+
+    @Test
+    public void scoreOnes() {
+        rollMany(20, 1);
+        assertThat(bowlingGame.getScore(), equalTo(20));
+    }
+
+    @Test
+    public void scoreOneSpare() {
+        bowlingGame.roll(5);
+        bowlingGame.roll(5);
+        bowlingGame.roll(3);
+        rollMany(17, 0);
+        assertThat(bowlingGame.getScore(), equalTo(16));
+    }
+
+    @Test
+    public void scoreOneStrike() {
+        bowlingGame.roll(10);
+        bowlingGame.roll(3);
+        bowlingGame.roll(4);
+        rollMany(16, 0);
+        assertThat(bowlingGame.getScore(), equalTo(24));
+    }
+
+    @Test
+    public void scoreAllStrikes() {
+        rollMany(12, 10);
+        assertThat(bowlingGame.getScore(), equalTo(300));
     }
 }
