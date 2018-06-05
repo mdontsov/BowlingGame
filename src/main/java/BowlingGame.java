@@ -10,14 +10,6 @@ public class BowlingGame {
         return r.nextInt(11);
     }
 
-    public int getFrameScore() {
-//        score = r.nextInt(11);
-        if (score == 10) {
-            score = score + getStrikeBonus();
-        }
-        return score;
-    }
-
     public int getCurrentScore() {
         return score;
     }
@@ -27,27 +19,16 @@ public class BowlingGame {
     }
 
     private boolean isStrikeScore() {
-        return score == 10;
+        return getScore() == 10;
     }
 
     private boolean isSpareScore() {
-        int totalFrameScore = 0;
-        for (int i = 1; i <= 2; i++) {
-            totalFrameScore += score;
-        }
-        return totalFrameScore >= 10;
-    }
-
-    private int getStrikeBonus() {
+        int firstRollScore = getScore();
         int totalScore = 0;
-        for (int i = 1; i <= 2; i++) {
-            int scorePerFrame = getScore();
-            totalScore += scorePerFrame;
+        if (firstRollScore > 0 && firstRollScore < 10) {
+            int spareRollScore = getScore();
+            totalScore = spareRollScore + firstRollScore;
         }
-        return totalScore;
+        return totalScore >= 10;
     }
-//
-//    private int getSpareBonus() {
-//
-//    }
 }
