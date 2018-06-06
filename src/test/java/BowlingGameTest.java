@@ -80,6 +80,7 @@ public class BowlingGameTest {
     @Test
     public void rollAndGetCurrentScore() {
         bowlingGame.randomRollInFrames(4);
+        assertThat(bowlingGame.score(), greaterThan(0));
         System.out.println(bowlingGame.score());
     }
 }
