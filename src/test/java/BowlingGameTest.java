@@ -81,6 +81,6 @@ public class BowlingGameTest {
     public void rollAndGetCurrentScore() {
         bowlingGame.randomRollInFrames(4);
         assertThat(bowlingGame.score(), greaterThan(0));
-        System.out.println(bowlingGame.score());
+//        System.out.println(bowlingGame.score());
     }
 }
