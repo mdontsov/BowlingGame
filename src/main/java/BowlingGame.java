@@ -1,64 +1,48 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class BowlingGame {
 
-    private static Random r = new Random();
-    private List<Integer> rolls = new ArrayList<>();
+    private int score = 0;
 
-    public void roll(int pins) {
-        rolls.add(pins);
-    }
+    private List<Frame> frames = new ArrayList();
 
-    public int getPins() {
-        return r.nextInt(11);
-    }
+    public int score() {
 
-    public void getScore(int frameIndex, int numberOfPins) {
-        int score = 0;
-        for (int i = 1; i <= frameIndex; i++) {
-            score += numberOfPins;
-        }
-        System.out.println(score);
-    }
-
-    public int getScore() {
-        int score = 0;
-        int frameIndex = 0;
-        for (int i = 0; i <= 9; i++) {
-//            rolls.add(getPins());
-            if (isStrike(rolls.get(0))) {
-                score += 10 + getStrikeBonus(frameIndex);
-                frameIndex++;
-            } else if (isSpare(rolls.get(0))) {
-                score += 10 + getSpareBonus(frameIndex);
-                frameIndex += 2;
-            } else {
-                score += getSum(frameIndex);
-                frameIndex += 2;
+        for (int currentFrame = 0; currentFrame < frames.size(); currentFrame++) {
+            Frame frame = frames.get(currentFrame);
+            score += frame.totalRollScore();
+            if (frame.isSpare()) {
+                Frame nextFrame = frames.get(currentFrame + 1);
+                score += nextFrame.Roll1();
+            } else if (frame.isStrike()) {
+                Frame nextFrame = frames.get(currentFrame + 1);
+                score += nextFrame.totalRollScore();
             }
         }
         return score;
     }
 
-    private boolean isStrike(int frameIndex) {
-        return rolls.get(frameIndex) == 10;
+    public void rolling(int roll1, int roll2) {
+        frames.add(new Frame(roll1, roll2));
     }
 
-    private boolean isSpare(int frameIndex) {
-        return getSum(frameIndex) >= 10;
+    public void rollInFrames(int roll1, int roll2, int numberOfFrames) {
+        for (int i = 0; i < numberOfFrames; i++) {
+            rolling(roll1, roll2);
+        }
     }
 
-    private int getStrikeBonus(int frameIndex) {
-        return rolls.get(frameIndex + 1);
+    public void rollSpare(int roll1, int roll2) {
+        Frame frame = new Frame(roll1, roll2);
+        frame.setSpare(true);
+        frames.add(frame);
+
     }
 
-    private int getSpareBonus(int frameIndex) {
-        return rolls.get(frameIndex + 2);
-    }
-
-    private int getSum(int frameIndex) {
-        return rolls.get(frameIndex) + rolls.get(frameIndex + 1);
+    public void rollStrike() {
+        Frame frame = new Frame(10, 0);
+        frame.setStrike(true);
+        frames.add(frame);
     }
 }
