@@ -1,7 +1,5 @@
 import org.junit.Before;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -34,7 +32,6 @@ public class BowlingGameTest {
         assertThat(bowlingGame.score(), equalTo(48));
     }
 
-
     @Test
     public void rollSpareTwice() {
         for (int i = 0; i < 2; i++) {
@@ -58,5 +55,25 @@ public class BowlingGameTest {
         }
         bowlingGame.rollInFrames(2, 2, 8);
         assertThat(bowlingGame.score(), equalTo(68));
+    }
+
+    @Test
+    public void rollPerfectGame() {
+        for (int i = 1; i < 10; i++) {
+            bowlingGame.rollStrike();
+        }
+        bowlingGame.rollInTenthFrame(10, 10, 10);
+        assertThat(bowlingGame.score(), equalTo(300));
+    }
+
+    @Test
+    public void rollStrikesAndSpares() {
+        for (int i = 1; i < 5; i++) {
+            bowlingGame.rollStrike();
+            bowlingGame.rollSpare(4, 6);
+        }
+        bowlingGame.rollStrike();
+        bowlingGame.rollInTenthFrame(4, 6, 10);
+        assertThat(bowlingGame.score(), equalTo(200));
     }
 }

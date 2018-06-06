@@ -4,6 +4,7 @@ public class Frame {
     private int roll2;
     private boolean isSpare;
     private boolean isStrike;
+    private int bonusRoll;
 
     public int Roll1() {
         return roll1;
@@ -35,6 +36,14 @@ public class Frame {
     }
 
     public int totalRollScore() {
-        return roll1 + roll2;
+        return roll1 + roll2 + getBonusRoll();
+    }
+
+    public int getBonusRoll() {
+        return bonusRoll;
+    }
+
+    public void setBonusRoll(int bonusRoll) {
+        this.bonusRoll = bonusRoll;
     }
 }
