@@ -17,7 +17,13 @@ public class BowlingGame {
                 score += nextFrame.Roll1();
             } else if (frame.isStrike()) {
                 Frame nextFrame = frames.get(currentFrame + 1);
-                score += nextFrame.totalRollScore();
+                score += nextFrame.Roll1();
+                if (nextFrame.isStrike()) {
+                    Frame thirdFrame = frames.get(currentFrame + 2);
+                    score += thirdFrame.Roll1();
+                } else {
+                    score += nextFrame.Roll2();
+                }
             }
         }
         return score;

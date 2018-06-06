@@ -28,7 +28,15 @@ public class BowlingGameTest {
     }
 
     @Test
-    public void rollSpares() {
+    public void rollSpareOnce() {
+        bowlingGame.rollSpare(2, 8);
+        bowlingGame.rollInFrames(2, 2, 9);
+        assertThat(bowlingGame.score(), equalTo(48));
+    }
+
+
+    @Test
+    public void rollSpareTwice() {
         for (int i = 0; i < 2; i++) {
             bowlingGame.rollSpare(2, 8);
         }
@@ -37,7 +45,7 @@ public class BowlingGameTest {
     }
 
     @Test
-    public void rollStrike() {
+    public void rollStrikeOnce() {
         bowlingGame.rollStrike();
         bowlingGame.rollInFrames(2, 2, 9);
         assertThat(bowlingGame.score(), equalTo(50));
