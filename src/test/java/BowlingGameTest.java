@@ -76,4 +76,10 @@ public class BowlingGameTest {
         bowlingGame.rollInTenthFrame(4, 6, 10);
         assertThat(bowlingGame.score(), equalTo(200));
     }
+
+    @Test
+    public void rollAndGetCurrentScore() {
+        bowlingGame.randomRollInFrames(4);
+        System.out.println(bowlingGame.score());
+    }
 }

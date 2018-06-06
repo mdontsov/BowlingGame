@@ -1,11 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BowlingGame {
 
     private int score = 0;
-
     private List<Frame> frames = new ArrayList();
+    private Random r = new Random();
+    private int rScore1;
+    private int rScore2;
 
     public int score() {
 
@@ -36,6 +39,14 @@ public class BowlingGame {
     public void rollInFrames(int roll1, int roll2, int numberOfFrames) {
         for (int i = 0; i < numberOfFrames; i++) {
             rolling(roll1, roll2);
+        }
+    }
+
+    public void randomRollInFrames(int numberOfFrames) {
+        for (int i = 0; i < numberOfFrames; i++) {
+            rScore1 = r.nextInt(10);
+            rScore2 = r.nextInt(10);
+            rolling(rScore1, rScore2);
         }
     }
 
